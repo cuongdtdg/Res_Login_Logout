@@ -1,0 +1,33 @@
+                                    Table "public.users"
+       Column       |            Type             | Collation | Nullable |      Default      
+--------------------+-----------------------------+-----------+----------+-------------------
+ id                 | uuid                        |           | not null | gen_random_uuid()
+ full_name          | character varying(255)      |           | not null | 
+ email              | character varying(255)      |           |          | 
+ phone              | character varying(50)       |           |          | 
+ password_hash      | character varying(255)      |           | not null | 
+ role_id            | uuid                        |           |          | 
+ is_active          | boolean                     |           |          | false
+ notification_email | character varying(255)      |           |          | 
+ created_at         | timestamp with time zone    |           |          | now()
+ is_approved        | boolean                     |           |          | false
+ approved_at        | timestamp without time zone |           |          | 
+ approved_by        | uuid                        |           |          | 
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+    "idx_users_email" btree (email)
+    "idx_users_phone" btree (phone)
+    "idx_users_role_id" btree (role_id)
+    "users_email_key" UNIQUE CONSTRAINT, btree (email)
+    "users_phone_key" UNIQUE CONSTRAINT, btree (phone)
+Check constraints:
+    "check_email_format" CHECK (email::text ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$'::text)
+    "check_phone_format" CHECK (phone::text ~* '^\d{10,11}$'::text)
+Foreign-key constraints:
+    "users_role_id_fkey" FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
+Referenced by:
+    TABLE "auth_sessions" CONSTRAINT "auth_sessions_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    TABLE "temp_sessions" CONSTRAINT "temp_sessions_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+Triggers:
+    tr_set_admin_active BEFORE INSERT ON users FOR EACH ROW EXECUTE FUNCTION set_admin_active()
+

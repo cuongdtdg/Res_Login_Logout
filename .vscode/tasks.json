@@ -1,0 +1,35 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Run DB migration to fix users table",
+			"type": "shell",
+			"command": "/home/linh-pham/Documents/Res_Login_Logout/venv/bin/python",
+			"args": [
+				"/home/linh-pham/Documents/Res_Login_Logout/migrate_users_table.py"
+			],
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Re-run DB migration to add unique indexes",
+			"type": "shell",
+			"command": "/home/linh-pham/Documents/Res_Login_Logout/venv/bin/python",
+			"args": [
+				"/home/linh-pham/Documents/Res_Login_Logout/migrate_users_table.py"
+			],
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Run DB backfill for name",
+			"type": "shell",
+			"command": "/home/linh-pham/Documents/Res_Login_Logout/venv/bin/python",
+			"args": [
+				"/home/linh-pham/Documents/Res_Login_Logout/migrate_users_table.py"
+			],
+			"problemMatcher": [],
+			"group": "build"
+		}
+	]
+}
